@@ -30,6 +30,14 @@ pipeline {
             }
         }
 
+        stage('Install Playwright Browsers') {
+            steps {
+                script {
+                    bat 'npx playwright install --with-deps' // Install required browsers
+                }
+            }
+        }
+
         stage('Run Playwright Tests') {
             steps {
                 script {
@@ -58,6 +66,3 @@ pipeline {
         }
     }
 }
-
-
-
