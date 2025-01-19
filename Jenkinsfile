@@ -43,10 +43,19 @@ pipeline {
             }
         }
 
-        stage('Publish Reports') {
-            steps {
-                publishHTML([reportDir: 'playwright-report', reportFiles: 'index.html', reportName: 'Test Report'])
-            }
+stage('Publish Reports') {
+    steps {
+        publishHTML([
+            reportDir: 'playwright-report',
+            reportFiles: 'index.html',
+            reportName: 'Test Report',
+            keepAll: true,
+            alwaysLinkToLastBuild: true,
+            allowMissing: false
+        ])
+    }
+}
+
         }
     }
 }
