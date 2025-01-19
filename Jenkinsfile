@@ -30,10 +30,11 @@ pipeline {
             }
         }
 
-        stage('Install Playwright Browsers') {
+        stage('Install Playwright Chromium') {
             steps {
                 script {
-                    bat 'npx playwright install --with-deps' // Install required browsers
+                    // Install only the Chromium (Chrome) browser
+                    bat 'npx playwright install chromium --with-deps'
                 }
             }
         }
@@ -41,7 +42,7 @@ pipeline {
         stage('Run Playwright Tests') {
             steps {
                 script {
-                    def command = 'npx playwright test'
+                    def command = 'npx playwright test --project=chrome' // Use the chrome project
                     if (params.TAGS?.trim()) {
                         command += " --grep \"${params.TAGS}\""
                     }
@@ -53,12 +54,12 @@ pipeline {
         stage('Publish Reports') {
             steps {
                 script {
-                    publishHTML([
-                        reportDir: 'playwright-report',
-                        reportFiles: 'index.html',
-                        reportName: 'Test Report',
-                        keepAll: true,
-                        alwaysLinkToLastBuild: true,
+                    publishHTML([ 
+                        reportDir: 'playwright-report', 
+                        reportFiles: 'index.html', 
+                        reportName: 'Test Report', 
+                        keepAll: true, 
+                        alwaysLinkToLastBuild: true, 
                         allowMissing: false
                     ])
                 }
