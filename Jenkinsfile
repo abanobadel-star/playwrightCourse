@@ -15,7 +15,7 @@ pipeline {
             steps {
                 script {
                     echo "Checking out branch: ${params.BRANCH_NAME}"
-                    checkout([$class: 'GitSCM', branches: [[name: "*/${params.BRANCH_NAME}"]],
+                    checkout([$class: 'GitSCM', branches: [[name: "*/${params.BRANCH_NAME}"]], 
                               userRemoteConfigs: [[url: 'https://github.com/abanobadel-star/playwrightCourse.git']]])
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
         stage('Run Playwright Tests') {
             steps {
                 script {
-                    def command = 'npx playwright test --project=chrome' // Use the chrome project
+                    def command = 'npx playwright test --project=chromium' // Use the chromium project
                     if (params.TAGS?.trim()) {
                         command += " --grep \"${params.TAGS}\""
                     }
