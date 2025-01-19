@@ -22,14 +22,16 @@ pipeline {
         }
 
         stage('Setup Node.js & Install Dependencies') {
-            steps {
-                script {
-                    def nodeHome = tool name: 'NodeJS', type: 'hudson.plugins.nodejs.tools.NodeJSInstallation'
-                    env.PATH = "${nodeHome}/bin:${env.PATH}"
-                    sh 'npm install'
-                }
-            }
+    steps {
+        script {
+            sh 'curl -fsSL https://deb.nodesource.com/setup_18.x | bash -'
+            sh 'sudo apt-get install -y nodejs'
+            sh 'node -v' // Verify Node.js installation
+            sh 'npm install' // Install dependencies
         }
+    }
+}
+
 
         stage('Run Playwright Tests') {
             steps {
