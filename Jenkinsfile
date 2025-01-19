@@ -22,16 +22,13 @@ pipeline {
         }
 
         stage('Setup Node.js & Install Dependencies') {
-    steps {
-        script {
-            sh 'curl -fsSL https://deb.nodesource.com/setup_18.x | bash -'
-            sh 'sudo apt-get install -y nodejs'
-            sh 'node -v' // Verify Node.js installation
-            sh 'npm install' // Install dependencies
+            steps {
+                script {
+                    bat 'node -v' // Verify Node.js installation
+                    bat 'npm install' // Install dependencies
+                }
+            }
         }
-    }
-}
-
 
         stage('Run Playwright Tests') {
             steps {
@@ -40,7 +37,7 @@ pipeline {
                     if (params.TAGS?.trim()) {
                         command += " --grep \"${params.TAGS}\""
                     }
-                    sh command
+                    bat command
                 }
             }
         }
@@ -61,5 +58,6 @@ pipeline {
         }
     }
 }
+
 
 
