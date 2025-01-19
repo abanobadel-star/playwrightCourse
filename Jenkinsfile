@@ -7,7 +7,7 @@ pipeline {
     }
 
     environment {
-        NODEJS_VERSION = '18' // Change this if needed
+        NODEJS_VERSION = '18' // Adjust this if needed
     }
 
     stages {
@@ -43,20 +43,21 @@ pipeline {
             }
         }
 
-stage('Publish Reports') {
-    steps {
-        publishHTML([
-            reportDir: 'playwright-report',
-            reportFiles: 'index.html',
-            reportName: 'Test Report',
-            keepAll: true,
-            alwaysLinkToLastBuild: true,
-            allowMissing: false
-        ])
-    }
-}
-
+        stage('Publish Reports') {
+            steps {
+                script {
+                    publishHTML([
+                        reportDir: 'playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'Test Report',
+                        keepAll: true,
+                        alwaysLinkToLastBuild: true,
+                        allowMissing: false
+                    ])
+                }
+            }
         }
     }
 }
+
 
