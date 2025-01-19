@@ -3,7 +3,7 @@ pipeline {
 
     parameters {
         choice(name: 'BRANCH_NAME', choices: ['main', 'develop', 'feature-branch'], description: 'Select branch to run')
-        string(name: 'TAGS', defaultValue: '', description: 'Enter Playwright tags to filter tests')
+        string(name: 'TAGS', defaultValue: '', description: 'Enter Playwright tags (e.g., @smoke,@regression)')
     }
 
     environment {
@@ -36,7 +36,7 @@ pipeline {
                 script {
                     def command = 'npx playwright test'
                     if (params.TAGS?.trim()) {
-                        command += " --grep ${params.TAGS}"
+                        command += " --grep \"${params.TAGS}\""
                     }
                     sh command
                 }
@@ -50,3 +50,4 @@ pipeline {
         }
     }
 }
+
