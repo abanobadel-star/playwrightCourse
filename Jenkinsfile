@@ -24,6 +24,7 @@ pipeline {
         stage('Setup Node.js & Install Dependencies') {
             steps {
                 script {
+                    bat 'chcp 65001' // Set terminal to UTF-8
                     bat 'node -v' // Verify Node.js installation
                     bat 'npm install' // Install dependencies
                 }
@@ -42,7 +43,7 @@ pipeline {
         stage('Run Playwright Tests') {
             steps {
                 script {
-                    def command = 'npx playwright test --project=chromium' // Use the chromium project
+                    def command = 'npx playwright test --project=chromium --reporter=dot' // Use the dot reporter for readability
                     if (params.TAGS?.trim()) {
                         command += " --grep \"${params.TAGS}\""
                     }
